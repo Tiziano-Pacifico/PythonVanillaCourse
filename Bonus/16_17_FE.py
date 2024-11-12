@@ -1,5 +1,5 @@
 import FreeSimpleGUI as sg
-from zip_creator import make_archive
+from Bonus.modules.zip_creator import make_archive
 
 label1= sg.Text("Select file to compress")
 input1 = sg.Input()
