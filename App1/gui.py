@@ -3,16 +3,17 @@ import FreeSimpleGUI as sg
 
 label = sg.Text("Type in a to-do")
 input_box = sg.InputText(tooltip="Enter todo", key="todo")
-#add_button = sg.Button("Add")
 list_box = sg.Listbox(values=functions.get_todos(), key='todos', enable_events=True, size=[45,10])
-#edit_button = sg.Button("Edit")
 
 button_labels = ["Add","Edit"]
 input_box_list = [input_box, list_box]
 layout = [[label]]
 for index, bl in enumerate(button_labels):
     layout.append([input_box_list[index], sg.Button(bl)])
+complete_button = sg.Button("Complete")
+exit_button = sg.Button("Exit")
 
+layout.append([complete_button, exit_button])
 
 window = sg.Window('My TODO app',
                    layout=layout,
@@ -36,8 +37,17 @@ while True:
             todos[index] = new_todo
             functions.write_todos(todos)
             window['todos'].update(values=todos)
+        case 'Complete':
+            todo_to_complete = values['todos'][0]
+            todos = functions.get_todos()
+            todos.remove(todo_to_complete)
+            functions.write_todos(todos)
+            window['todos'].update(values=todos)
+            window['todo'].update(value="")
         case 'todos':
             window['todo'].update(value=values['todos'][0])
+        case 'Exit':
+            break
         case sg.WIN_CLOSED:
             break
 
